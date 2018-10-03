@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GH View Model</string>
+    <string name="text_error">error loading</string>
+</resources>
