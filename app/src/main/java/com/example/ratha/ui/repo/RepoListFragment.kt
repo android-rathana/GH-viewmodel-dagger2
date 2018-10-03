@@ -1,7 +1,6 @@
-package com.example.ratha.ui
+package com.example.ratha.ui.repo
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,12 +10,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.ratha.data.entity.Repo
 import com.example.ratha.ghviewmodel.R
 import com.example.ratha.ui.adapter.RepoAdapter
+import com.example.ratha.ui.callback.ItemClickCallback
+import com.example.ratha.ui.detail.DetailFragment
+import com.example.ratha.viewmodel.DetailViewModel
 import com.example.ratha.viewmodel.RepoViewModel
 import kotlinx.android.synthetic.main.repo_fragment.*
 
-class RepoListFragment : Fragment() {
+class RepoListFragment : Fragment() ,ItemClickCallback<Repo>{
 
     private lateinit var viewmodel: RepoViewModel
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -26,7 +29,7 @@ class RepoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewmodel = ViewModelProviders.of(this).get(RepoViewModel::class.java)
         recycler_view?.addItemDecoration(DividerItemDecoration(activity,DividerItemDecoration.VERTICAL))
-        val adapter=RepoAdapter(viewmodel,this)
+        val adapter=RepoAdapter(viewmodel,this,this)
         recycler_view?.layoutManager=LinearLayoutManager(activity)
         recycler_view?.adapter=adapter
         observeViewModel();
@@ -57,6 +60,16 @@ class RepoListFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onObjectClickListener(t: Repo) {
+       val detailViewModel=ViewModelProviders.of(activity!!).get(DetailViewModel::class.java)
+        //Log.e("repo","$t")
+        detailViewModel.setRepo(t)
+        activity?.supportFragmentManager?.beginTransaction()!!
+                .replace(R.id.container, DetailFragment())
+                .addToBackStack(null)
+                .commit()
     }
 }
 

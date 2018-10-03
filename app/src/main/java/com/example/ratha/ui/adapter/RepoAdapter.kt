@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ratha.data.entity.Repo
 import com.example.ratha.ghviewmodel.R
+import com.example.ratha.ui.callback.ItemClickCallback
 import com.example.ratha.viewmodel.RepoViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.repo_item_layout.*
 
-class RepoAdapter(viewModel: RepoViewModel , lifecycleOwner: LifecycleOwner) :
+class RepoAdapter(viewModel: RepoViewModel , lifecycleOwner: LifecycleOwner,val listener: ItemClickCallback<Repo>) :
         RecyclerView.Adapter<RepoAdapter.ViewHolder>() {
     val repos= mutableListOf<Repo>()
     init {
@@ -41,11 +42,13 @@ class RepoAdapter(viewModel: RepoViewModel , lifecycleOwner: LifecycleOwner) :
             repoFork?.text="${repo.forks}"
             repoStar?.text="${repo.watchers}"
         }
+        holder.itemView.setOnClickListener{
+            listener?.onObjectClickListener(repo)
+        }
     }
 
     inner class ViewHolder(override val containerView: View) :
             RecyclerView.ViewHolder(containerView),LayoutContainer{
-
         val repoTitle=title
         val repoDescription =description
         val repoFork=text_fork

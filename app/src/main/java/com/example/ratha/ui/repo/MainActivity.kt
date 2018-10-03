@@ -1,4 +1,4 @@
-package com.example.ratha.ui
+package com.example.ratha.ui.repo
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         //check when configuration change
         if(savedInstanceState==null){
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container,RepoListFragment())
+                    .replace(R.id.container, RepoListFragment())
                     .commit()
         }
 
