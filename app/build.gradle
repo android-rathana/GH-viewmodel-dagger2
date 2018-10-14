@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -24,9 +26,10 @@ android {
 androidExtensions {
     experimental = true
 }
-def butterknifVersion="8.8.1"
+def butterknif_version="8.8.1"
 def sdkVersion="28.0.0"
 def lifecycle_version = "1.1.1"
+def dagger2_version="2.17"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -39,8 +42,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation "com.jakewharton:butterknife:$butterknifVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifVersion"
+    implementation "com.jakewharton:butterknife:$butterknif_version"
+    kapt "com.jakewharton:butterknife-compiler:$butterknif_version"
 
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -51,4 +54,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+
+    //dagger2
+    implementation "com.google.dagger:dagger:$dagger2_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
+    //annotationProcessor "com.google.dagger:dagger-compiler:$dagger2_version"
 }
